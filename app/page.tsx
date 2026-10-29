@@ -1,48 +1,67 @@
-import { Suspense } from 'react'
-import { supabase } from '@/lib/supabase'
+import Link from 'next/link'
 
-async function Services() {
-  const { data: services, error } = await supabase
-    .from('services')
-    .select('*')
-    .eq('active', true)
-    .order('id')
-
-  if (error) return <p className="text-red-600">Ошибка: {error.message}</p>
-
+function Scissors() {
   return (
-    <div className="space-y-3">
-      {services?.map((s) => (
-        <div
-          key={s.id}
-          className="flex items-center justify-between rounded-3xl bg-white p-5 shadow-sm"
-        >
-          <div>
-            <div className="font-semibold">{s.name}</div>
-            <div className="text-sm text-[#6B6888]">{s.duration_min} мин</div>
-          </div>
-          <div className="font-bold">{s.price} ₽</div>
-        </div>
-      ))}
-    </div>
+    <svg viewBox="0 0 120 120" className="h-52 w-52" aria-hidden="true">
+      <line x1="75.5" y1="75.6" x2="36" y2="18" stroke="#EDE9FD" strokeWidth="11" strokeLinecap="round" />
+      <line x1="44.5" y1="75.6" x2="84" y2="18" stroke="#B9AEF5" strokeWidth="19" strokeLinecap="round" />
+      <line x1="44.5" y1="75.6" x2="84" y2="18" stroke="#FFFFFF" strokeWidth="11" strokeLinecap="round" />
+      <circle cx="36" cy="88" r="15" fill="none" stroke="#2B2745" strokeWidth="8" />
+      <circle cx="84" cy="88" r="15" fill="none" stroke="#FFC9A8" strokeWidth="8" />
+      <circle cx="60" cy="53" r="4.5" fill="#FFC9A8" />
+    </svg>
+  )
+}
+
+function Logo() {
+  return (
+    <svg viewBox="0 0 120 120" className="h-9 w-9" aria-hidden="true">
+      <line x1="75" y1="76" x2="36" y2="18" stroke="#B9AEF5" strokeWidth="12" strokeLinecap="round" />
+      <line x1="45" y1="76" x2="84" y2="18" stroke="#8E7CF0" strokeWidth="12" strokeLinecap="round" />
+      <circle cx="36" cy="88" r="15" fill="none" stroke="#8E7CF0" strokeWidth="8" />
+      <circle cx="84" cy="88" r="15" fill="none" stroke="#FFC9A8" strokeWidth="8" />
+    </svg>
   )
 }
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#F4F2FB] px-6 py-10 text-[#3A3556]">
-      <div className="mx-auto max-w-md">
-        <h1 className="text-4xl font-bold tracking-tight">Не спеши,</h1>
-        <h1 className="mb-2 text-4xl font-bold tracking-tight">стрижёмся спокойно</h1>
-        <p className="mb-8 text-[#6B6888]">Запишись к барберу за пару касаний.</p>
+    <main className="min-h-screen bg-[#F4F2FB] text-[#3A3556]">
+      <div className="mx-auto flex min-h-screen max-w-md flex-col px-6 pb-10 pt-6">
+        <div className="mb-6 flex items-center gap-3">
+          <Logo />
+          <span className="text-lg font-bold tracking-tight">barbershop</span>
+        </div>
 
-        <Suspense fallback={<p className="text-[#6B6888]">Загрузка…</p>}>
-          <Services />
-        </Suspense>
+        <div className="relative mb-10 flex h-80 items-center justify-center overflow-hidden rounded-[36px] bg-[#B9AEF5]">
+          <div className="absolute -right-10 -top-10 h-44 w-44 rounded-full bg-[#FFC9A8]" />
+          <div className="absolute -bottom-16 -left-10 h-56 w-56 rounded-full bg-[#D9D2FA]" />
+          <div className="absolute -bottom-4 -right-2 h-20 w-20 rounded-full bg-white" />
+          <div className="relative">
+            <Scissors />
+          </div>
+        </div>
 
-        <button className="mt-8 h-14 w-full rounded-full bg-[#6E5CD6] font-semibold text-white">
-          Записаться
-        </button>
+        <h1 className="text-[34px] font-bold leading-[1.15] tracking-tight">
+          Не спеши,
+          <br />
+          стрижёмся спокойно
+        </h1>
+        <p className="mt-4 text-[15px] leading-relaxed text-[#6B6888]">
+          Запишись к барберу за пару касаний — без звонков и ожидания.
+        </p>
+
+        <div className="mt-auto pt-10">
+          <Link
+            href="/book"
+            className="flex h-14 w-full items-center justify-center rounded-full bg-[#6E5CD6] text-base font-semibold text-white"
+          >
+            Записаться
+          </Link>
+          <p className="mt-5 text-center text-sm text-[#6B6888]">
+            Уже есть аккаунт? <span className="font-semibold text-[#6E5CD6]">Войти</span>
+          </p>
+        </div>
       </div>
     </main>
   )
